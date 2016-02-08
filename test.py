@@ -9,7 +9,7 @@
 
 from PyQt4 import QtCore, QtGui
 import MySQLdb
-from popwindow import MyPopup
+from testpopup import MyPopup
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -22,7 +22,7 @@ class Ui_Form(object):
         self.pushButton = QtGui.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(120, 10, 98, 27))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.pushButton.clicked.connect(self.UpdateTree)
+        self.pushButton.clicked.connect(self.newWindow)
         self.treeWidget = QtGui.QTreeWidget(Form)
         self.treeWidget.setGeometry(QtCore.QRect(50, 70, 300, 192))
         self.treeWidget.setObjectName(_fromUtf8("treeWidget"))
@@ -56,7 +56,7 @@ class Ui_Form(object):
                 self.treeWidget.topLevelItem(item).setText(value, str(table[item][value]))
     def newWindow(self):
 		self.w = MyPopup()
-		self.w.setGeometry(QtCore.QRect(100, 100, 400, 200))
+		#self.w.setGeometry(QtCore.QRect(100, 100, 400, 200))
 		self.w.show()
 
 
