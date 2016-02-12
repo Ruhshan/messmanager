@@ -2,6 +2,7 @@ from dialogs import mealdialog
 from PyQt4 import *
 class Methods:
 	def mealupdate(self,selectedDate,mealtype):
+		print selectedDate
 		selectedDate=str(selectedDate)[19:].replace(')','')
 		print selectedDate, mealtype
 		dates=[1,2,3] #get dates column from database

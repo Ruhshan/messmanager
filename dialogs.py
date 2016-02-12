@@ -23,10 +23,14 @@ class mealdialog(QDialog):
         self.label_2.setGeometry(QtCore.QRect(20, 40, 41, 17))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         
-        self.meals = QtGui.QLineEdit(Meal)
-        self.meals.setGeometry(QtCore.QRect(60, 30, 81, 27))
-        self.meals.setObjectName(_fromUtf8("meals"))
-        self.meals.setText(str(mealnumber))
+        # self.meals = QtGui.QLineEdit(Meal)
+        # self.meals.setGeometry(QtCore.QRect(60, 30, 81, 27))
+        # self.meals.setObjectName(_fromUtf8("meals"))
+        # self.meals.setText(str(mealnumber))
+        self.meals = QtGui.QSpinBox(Meal)
+        self.meals.setGeometry(QtCore.QRect(50, 30, 91, 27))
+        self.meals.setObjectName(_fromUtf8("spinBox"))
+        self.meals.setValue(mealnumber)
 
         self.label = QtGui.QLabel(Meal)
         self.label.setGeometry(QtCore.QRect(150, 40, 66, 17))
