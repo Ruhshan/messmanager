@@ -15,7 +15,8 @@ try:
 except AttributeError:
     _fromUtf8 = lambda s: s
 
-class Ui_MessManager(object):
+class Ui_MessManager(object):	
+    teststring=""
     def setupUi(self, MessManager):
         MessManager.setObjectName(_fromUtf8("MessManager"))
         MessManager.resize(400, 372)
@@ -195,11 +196,11 @@ class Ui_MessManager(object):
         self.Oplabdetails.setTextFormat(QtCore.Qt.RichText)
         self.Oplabdetails.setObjectName(_fromUtf8("Oplabdetails"))
         
-        self.opbtncmt = QtGui.QPushButton(self.tab)
-        self.opbtncmt.setGeometry(QtCore.QRect(130, 310, 141, 27))
-        self.opbtncmt.setStatusTip(_fromUtf8(""))
-        self.opbtncmt.setWhatsThis(_fromUtf8(""))
-        self.opbtncmt.setObjectName(_fromUtf8("opbtncmt"))
+        self.opbtnrefrsh = QtGui.QPushButton(self.tab)
+        self.opbtnrefrsh.setGeometry(QtCore.QRect(130, 310, 141, 27))
+        self.opbtnrefrsh.setStatusTip(_fromUtf8(""))
+        self.opbtnrefrsh.setWhatsThis(_fromUtf8(""))
+        self.opbtnrefrsh.setObjectName(_fromUtf8("opbtncmt"))
         
         self.tabWidget.addTab(self.tab, _fromUtf8("       Operations        "))
         self.tab_2 = QtGui.QWidget()
@@ -335,12 +336,23 @@ class Ui_MessManager(object):
         self.Opbtnbzrset.clicked.connect(lambda:self.Opmethod.bazarSet(self.Oplinedtexpnd.text(),self.Oplnedtrtrn.text(),self.Opcmbxbazar.currentText()))
         self.Opbtndpstadd.clicked.connect(lambda:self.Opmethod.depositUpdate(self.Opcmbxdpst.currentText(),self.Oplinedtdpst.text()))
 
+        self.opbtnrefrsh.clicked.connect(self.refresh)
+
         self.retranslateUi(MessManager)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MessManager)
 
     def reInitiateActions(self):
     	self.Opmethod=Operations(self.OpdateEdit.date())
+
+    def refresh(self):
+    	self.OpdateEdit.setDate(QtCore.QDate.currentDate())
+    	remDays=self.Opmethod.remainingDays()
+    	remBalance=self.Opmethod.remainingBalance()
+    	currMealRate=self.Opmethod.currentMealRate()
+    	richtext="<html><head/><body><p>Remaining Days: {}</p><p>Remaining Balance: {}</p><p>Current Mealrate: {}</p><p><br/></p><p><br/></p></body></html>".format(remDays,remBalance,currMealRate)
+    	self.Oplabdetails.setText(richtext)
+    	print remDays
 
 
 
@@ -366,7 +378,7 @@ class Ui_MessManager(object):
         self.Opcmbxbazar.setItemText(2, QtGui.QApplication.translate("MessManager", "Member3", None, QtGui.QApplication.UnicodeUTF8))
         self.OplabSummary.setText(QtGui.QApplication.translate("MessManager", "Summary:", None, QtGui.QApplication.UnicodeUTF8))
         self.Oplabdetails.setText(QtGui.QApplication.translate("MessManager", "<html><head/><body><p>Remaining Days: ##</p><p>Remaining Balance: ##</p><p>Current Mealrate: ##</p><p><br/></p><p><br/></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.opbtncmt.setText(QtGui.QApplication.translate("MessManager", "Commit Changes", None, QtGui.QApplication.UnicodeUTF8))
+        self.opbtnrefrsh.setText(QtGui.QApplication.translate("MessManager", "Refresh", None, QtGui.QApplication.UnicodeUTF8))
         self.Memcmboptions.setItemText(0, QtGui.QApplication.translate("MessManager", "Money", None, QtGui.QApplication.UnicodeUTF8))
         self.Memcmboptions.setItemText(1, QtGui.QApplication.translate("MessManager", "Meal", None, QtGui.QApplication.UnicodeUTF8))
         self.Memcmboptions.setItemText(2, QtGui.QApplication.translate("MessManager", "Bazar", None, QtGui.QApplication.UnicodeUTF8))
