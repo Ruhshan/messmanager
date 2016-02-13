@@ -8,7 +8,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-from actions import Operations
+from actions import Operations,Members
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -138,9 +138,6 @@ class Ui_MessManager(object):
         self.Opcmbxdpst.setStatusTip(_fromUtf8(""))
         self.Opcmbxdpst.setWhatsThis(_fromUtf8(""))
         self.Opcmbxdpst.setObjectName(_fromUtf8("Opcmbxdpst"))
-        self.Opcmbxdpst.addItem(_fromUtf8(""))
-        self.Opcmbxdpst.addItem(_fromUtf8(""))
-        self.Opcmbxdpst.addItem(_fromUtf8(""))
         
         self.Oplinedtdpst = QtGui.QLineEdit(self.tab)
         self.Oplinedtdpst.setGeometry(QtCore.QRect(240, 151, 81, 27))
@@ -178,9 +175,7 @@ class Ui_MessManager(object):
         self.Opcmbxbazar.setStatusTip(_fromUtf8(""))
         self.Opcmbxbazar.setWhatsThis(_fromUtf8(""))
         self.Opcmbxbazar.setObjectName(_fromUtf8("Opcmbxbazar"))
-        self.Opcmbxbazar.addItem(_fromUtf8(""))
-        self.Opcmbxbazar.addItem(_fromUtf8(""))
-        self.Opcmbxbazar.addItem(_fromUtf8(""))
+        
         
         self.OplabSummary = QtGui.QLabel(self.tab)
         self.OplabSummary.setGeometry(QtCore.QRect(10, 190, 71, 17))
@@ -220,9 +215,6 @@ class Ui_MessManager(object):
         self.MemCmbNames.setStatusTip(_fromUtf8(""))
         self.MemCmbNames.setWhatsThis(_fromUtf8(""))
         self.MemCmbNames.setObjectName(_fromUtf8("MemCmbNames"))
-        self.MemCmbNames.addItem(_fromUtf8(""))
-        self.MemCmbNames.addItem(_fromUtf8(""))
-        self.MemCmbNames.addItem(_fromUtf8(""))
         
         self.Membtnview = QtGui.QPushButton(self.tab_2)
         self.Membtnview.setGeometry(QtCore.QRect(290, 10, 98, 27))
@@ -329,6 +321,7 @@ class Ui_MessManager(object):
         ####
         self.OpdateEdit.dateChanged.connect(self.reInitiateActions)##if date changes
         self.Opmethod=Operations(self.OpdateEdit.date())#Methods class instance
+        self.updateMembers()#sets or updates memberslist throught all comboboxes
         self.OpBntBf.clicked.connect(lambda:self.Opmethod.mealUpdate("Breakfast"))
         self.OpBtnLnch.clicked.connect(lambda:self.Opmethod.mealUpdate("Lunch"))
         self.OpBtnDnr.clicked.connect(lambda:self.Opmethod.mealUpdate("Dinner"))
@@ -338,9 +331,22 @@ class Ui_MessManager(object):
 
         self.opbtnrefrsh.clicked.connect(self.refresh)
 
+        self.MemMethods=Members()
+        self.Membtnview.clicked.connect(self.memberView)
+
         self.retranslateUi(MessManager)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MessManager)
+    	
+
+
+    def updateMembers(self):
+    	mlist=self.Opmethod.getMembersList()
+    	self.Opcmbxdpst.addItems(mlist)
+    	self.Opcmbxbazar.addItems(mlist)
+    	self.MemCmbNames.addItems(mlist)
+
+    	#self.Opcmbxdpst.setItemText(0,"aaa")
 
     def reInitiateActions(self):
     	self.Opmethod=Operations(self.OpdateEdit.date())
@@ -353,6 +359,19 @@ class Ui_MessManager(object):
     	richtext="<html><head/><body><p>Remaining Days: {}</p><p>Remaining Balance: {}</p><p>Current Mealrate: {}</p><p><br/></p><p><br/></p></body></html>".format(remDays,remBalance,currMealRate)
     	self.Oplabdetails.setText(richtext)
     	print remDays
+
+    def memberView(self):
+    	colname,table=self.MemMethods.view(self.Memcmboptions.currentText(),self.MemCmbNames.currentText())
+
+    	for c in range(len(colname)):
+    		self.MemtreeWidget.headerItem().setText(c,colname[c])
+    	for c in range(len(colname)):
+    		self.MemtreeWidget.setColumnWidth(c,100)
+
+    	for item in range(len(table)):
+    		QtGui.QTreeWidgetItem(self.MemtreeWidget)
+    		for value in range(len(table[item])):
+    			self.MemtreeWidget.topLevelItem(item).setText(value,str(table[item][value]))
 
 
 
@@ -368,23 +387,14 @@ class Ui_MessManager(object):
         self.Oplabrtrn.setText(QtGui.QApplication.translate("MessManager", "Return:", None, QtGui.QApplication.UnicodeUTF8))
         self.Oplabdeposit.setText(QtGui.QApplication.translate("MessManager", "Deposit:", None, QtGui.QApplication.UnicodeUTF8))
         self.Oplabchosemember.setText(QtGui.QApplication.translate("MessManager", "Choose Member:", None, QtGui.QApplication.UnicodeUTF8))
-        self.Opcmbxdpst.setItemText(0, QtGui.QApplication.translate("MessManager", "Member1", None, QtGui.QApplication.UnicodeUTF8))
-        self.Opcmbxdpst.setItemText(1, QtGui.QApplication.translate("MessManager", "Meber2", None, QtGui.QApplication.UnicodeUTF8))
-        self.Opcmbxdpst.setItemText(2, QtGui.QApplication.translate("MessManager", "Member3", None, QtGui.QApplication.UnicodeUTF8))
         self.Opbtndpstadd.setText(QtGui.QApplication.translate("MessManager", "Add", None, QtGui.QApplication.UnicodeUTF8))
         self.Opbtnbzrset.setText(QtGui.QApplication.translate("MessManager", "Set", None, QtGui.QApplication.UnicodeUTF8))
-        self.Opcmbxbazar.setItemText(0, QtGui.QApplication.translate("MessManager", "Member1", None, QtGui.QApplication.UnicodeUTF8))
-        self.Opcmbxbazar.setItemText(1, QtGui.QApplication.translate("MessManager", "Member2", None, QtGui.QApplication.UnicodeUTF8))
-        self.Opcmbxbazar.setItemText(2, QtGui.QApplication.translate("MessManager", "Member3", None, QtGui.QApplication.UnicodeUTF8))
         self.OplabSummary.setText(QtGui.QApplication.translate("MessManager", "Summary:", None, QtGui.QApplication.UnicodeUTF8))
         self.Oplabdetails.setText(QtGui.QApplication.translate("MessManager", "<html><head/><body><p>Remaining Days: ##</p><p>Remaining Balance: ##</p><p>Current Mealrate: ##</p><p><br/></p><p><br/></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.opbtnrefrsh.setText(QtGui.QApplication.translate("MessManager", "Refresh", None, QtGui.QApplication.UnicodeUTF8))
         self.Memcmboptions.setItemText(0, QtGui.QApplication.translate("MessManager", "Money", None, QtGui.QApplication.UnicodeUTF8))
         self.Memcmboptions.setItemText(1, QtGui.QApplication.translate("MessManager", "Meal", None, QtGui.QApplication.UnicodeUTF8))
         self.Memcmboptions.setItemText(2, QtGui.QApplication.translate("MessManager", "Bazar", None, QtGui.QApplication.UnicodeUTF8))
-        self.MemCmbNames.setItemText(0, QtGui.QApplication.translate("MessManager", "Member1", None, QtGui.QApplication.UnicodeUTF8))
-        self.MemCmbNames.setItemText(1, QtGui.QApplication.translate("MessManager", "Member2", None, QtGui.QApplication.UnicodeUTF8))
-        self.MemCmbNames.setItemText(2, QtGui.QApplication.translate("MessManager", "Member3", None, QtGui.QApplication.UnicodeUTF8))
         self.Membtnview.setText(QtGui.QApplication.translate("MessManager", "View", None, QtGui.QApplication.UnicodeUTF8))
         self.Membtnaddmember.setText(QtGui.QApplication.translate("MessManager", "Add Member", None, QtGui.QApplication.UnicodeUTF8))
         self.Membtnrmmember.setText(QtGui.QApplication.translate("MessManager", "Remove Member", None, QtGui.QApplication.UnicodeUTF8))

@@ -1,7 +1,16 @@
 from dialogs import MealDialog
 from PyQt4 import *
 #from mainui import Ui_MessManager
-class Operations:
+class Members:
+	def getMembersList(self):
+		members=["abir","rayan","pratiq"]
+		return members
+	def view(self,options, member):
+		colname=["col1","col2"]
+		table=(('ABC', 1L), ('BBC', 2L), ('cBC', 3L), ('DBC', 4L), ('EBC', 5L), ('FBC', 6L), ('GBC', 7L), ('HBC', 8L), ('HBC', 8L), ('IBC', 9L), ('JBC', 10L))
+		return colname,table
+
+class Operations(Members):
 	def __init__(self, selectedDate):
 		self.selectedDate=selectedDate;
 
@@ -42,7 +51,7 @@ class Operations:
 
 	def remainingBalance(self):
 		return 9999
-		
+
 	def currentMealRate(self):
 		return 8989
 
