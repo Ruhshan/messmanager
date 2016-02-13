@@ -1,7 +1,11 @@
-from dialogs import mealdialog
+from dialogs import MealDialog
 from PyQt4 import *
-class Methods:
-	def mealupdate(self,selectedDate,mealtype):
+class Operations:
+	def __init__(self, selectedDate):
+		self.selectedDate=selectedDate;
+
+	def mealUpdate(self,mealtype):
+		selectedDate=self.selectedDate
 		print selectedDate
 		selectedDate=str(selectedDate)[19:].replace(')','')
 		print selectedDate, mealtype
@@ -16,8 +20,15 @@ class Methods:
 				#call pop(mean)
 		#democall
 		for m in members:		
-			self.w = mealdialog(m,1,mealtype)
+			self.w = MealDialog(m,1,mealtype)
 			self.w.exec_()
+
+	def bazarSet(self,expend,retrn,member):
+		print self.selectedDate
+		print "bazarSet called",expend,retrn,member
+
+	def depositUpdate(self, member, amount):
+		print self.selectedDate, member,amount
 		
 		
 

@@ -8,7 +8,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-from actions import Methods
+from actions import Operations
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -17,7 +17,6 @@ except AttributeError:
 
 class Ui_MessManager(object):
     def setupUi(self, MessManager):
-    	self.method=Methods()#Methods class instance
         MessManager.setObjectName(_fromUtf8("MessManager"))
         MessManager.resize(400, 372)
         self.tabWidget = QtGui.QTabWidget(MessManager)
@@ -327,13 +326,21 @@ class Ui_MessManager(object):
         ####
         ####
         ####
-        self.OpBntBf.clicked.connect(lambda:self.method.mealupdate(self.OpdateEdit.date(),"Breakfast"))
-        self.OpBtnLnch.clicked.connect(lambda:self.method.mealupdate(self.OpdateEdit.date(),"Lunch"))
-        self.OpBtnDnr.clicked.connect(lambda:self.method.mealupdate(self.OpdateEdit.date(),"Dinner"))
+        self.OpdateEdit.dateChanged.connect(self.reInitiateActions)##if date changes
+        self.Opmethod=Operations(self.OpdateEdit.date())#Methods class instance
+        self.OpBntBf.clicked.connect(lambda:self.Opmethod.mealUpdate("Breakfast"))
+        self.OpBtnLnch.clicked.connect(lambda:self.Opmethod.mealUpdate("Lunch"))
+        self.OpBtnDnr.clicked.connect(lambda:self.Opmethod.mealUpdate("Dinner"))
+
+        self.Opbtnbzrset.clicked.connect(lambda:self.Opmethod.bazarSet(self.Oplinedtexpnd.text(),self.Oplnedtrtrn.text(),self.Opcmbxbazar.currentText()))
+        self.Opbtndpstadd.clicked.connect(lambda:self.Opmethod.depositUpdate(self.Opcmbxdpst.currentText(),self.Oplinedtdpst.text()))
 
         self.retranslateUi(MessManager)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MessManager)
+
+    def reInitiateActions(self):
+    	self.Opmethod=Operations(self.OpdateEdit.date())
 
 
 

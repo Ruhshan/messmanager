@@ -5,9 +5,9 @@ try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
     _fromUtf8 = lambda s: s
-class mealdialog(QDialog):
+class MealDialog(QDialog):
     def __init__(self,membername,mealnumber,mealtype,parent=None):
-        super(mealdialog, self).__init__()
+        super(MealDialog, self).__init__()
         self.initu(self,membername,mealnumber,mealtype)
     def initu(self,Meal,membername,mealnumber,mealtype,parent=None):
         Meal.setObjectName(_fromUtf8("Meal"))
